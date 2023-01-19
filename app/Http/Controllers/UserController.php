@@ -9,6 +9,8 @@ class UserController extends Controller
 {
     public function index()
     {
+        $this->authorize('index', User::class);
+
         $users = User::all();
 
         return response()->json(['data' => $users], 200);
@@ -22,6 +24,8 @@ class UserController extends Controller
         {
             return response()->json(['message' => 'User not found'], 404);
         }
+
+        $this->authorize('show', $user);
         return response()->json($user, 200);
     }
 
@@ -40,6 +44,8 @@ class UserController extends Controller
             return response()->json(['message' => 'User not found']);
         }
 
+        $this->authorize('update', $user);
+
         //update user
         $user->name = $validated['name'];
         $user->email = $validated['email'];
@@ -51,6 +57,7 @@ class UserController extends Controller
 
     public function destroy($id)
     {
+        $this->authorize('destroy', User::class);
         $user = User::where('id', $id)->first();
         if(!$user)
         {

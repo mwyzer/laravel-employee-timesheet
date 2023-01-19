@@ -25,4 +25,28 @@ class UserPolicy
         }
         return $this->deny('Unauthorized');
     }
+
+    public function update(User $user, User $model)
+    {
+        if ($user-> name == 'admin' || $user -> id == $model-> id)
+        {
+            return true;
+        }
+
+        return $this->deny('Unauthorized');
+    }
+
+     public function destroy(User $user, User $model)
+    {
+        if ($user-> name == 'admin' || $user -> id == $model-> id)
+        {
+            return true;
+        }
+
+        return $this->deny('Unauthorized');
+    }
+
+
+
+
 }
